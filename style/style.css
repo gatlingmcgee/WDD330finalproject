@@ -1,40 +1,23 @@
-:root {
-    --backgroundcolor: #000;
-    --foregroundcolor: #000;
-}
-
-* {
-    font-family: "Itim", cursive;
-}
-
 body, html {
-    margin: 0;
     padding: 0;
+    margin: 0;
+    margin-top: 20px;
     height: 100%;
-    text-align: center;
-    align-items: center;
     place-items: center;
 }
 
 main {
-    width: 100%;
-    height: auto;
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 30px;
-}
-
-h1 {
-    text-decoration: underline;
-    margin-bottom: 50px;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    gap: 20px;
 }
 
 .pokemon-card {
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
-    padding: 30px;
-    margin: 20px;
-    width: 150px;
+    padding: 10px;
+    width: 100%;
     height: auto;
+    align-items: center;
     text-align: center;
     transition: transform .2s;
 }
@@ -43,7 +26,18 @@ h1 {
     transform: scale(1.2);
 }
 
-footer {
-    padding: 10px;
-    margin: 10px;
+h2 {
+    text-decoration: underline;
+}
+
+.pokemon-sprite {
+    width: 150px;
+    height: 150px;
+    object-fit: contain;
+}
+
+.pokemon-stats {
+    margin-top: 10px;
+    text-align: left;
+    font-size: 14px;
 }
