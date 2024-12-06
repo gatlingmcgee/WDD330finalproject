@@ -19,7 +19,7 @@ function navigateToFavorites() {
 }
 
 // Event listeners to handle the button click on both index and details pages
-const viewFavoritesButton = document.getElementById('viewFavoritesButton');
+const viewFavoritesButton = document.getElementById('viewFavoritesbutton');
 if (viewFavoritesButton) {
     viewFavoritesButton.addEventListener('click', navigateToFavorites);
 }
