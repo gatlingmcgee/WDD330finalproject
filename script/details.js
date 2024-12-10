@@ -1,5 +1,5 @@
 const urlParams = new URLSearchParams(window.location.search);
-const pokemonId = urlParams.get('id');  // Extract the "id" from the URL
+const pokemonId = urlParams.get('id');
 
 console.log("Pokemon ID:", pokemonId);
 
@@ -8,8 +8,8 @@ const detailUrl = `https://pokeapi.co/api/v2/pokemon/${pokemonId}/`;
 async function getPokemonDetail() {
     const response = await fetch(detailUrl);
     if (response.ok) {
-        const data = await response.json();  // Parse the JSON response
-        displayPokemonDetails(data);  // Process and display the data
+        const data = await response.json();
+        displayPokemonDetails(data);
     }
 }
 
@@ -19,7 +19,7 @@ function displayPokemonDetails(pokemonData) {
     
     // Creates and displays pokemon names
     const name = document.createElement('h2');
-    const nameCap = pokemonData.name.replace(/\b\w/g, char => char.toUpperCase());  // Capitalize the name
+    const nameCap = pokemonData.name.replace(/\b\w/g, char => char.toUpperCase());
     name.textContent = nameCap;
     container.appendChild(name);
 
