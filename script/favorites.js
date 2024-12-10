@@ -1,21 +1,27 @@
-// Get the favorites from localStorage
 const favorites = JSON.parse(localStorage.getItem('favorites')) || [];
-
 const favoritesContainer = document.querySelector('#favoritesContainer');
 
-// Function to fetch detailed information about a Pokémon using its ID
+// Function that gets pokemon details
 async function getPokemonDetails(pokemonId) {
     const response = await fetch(`https://pokeapi.co/api/v2/pokemon/${pokemonId}/`);
     if (response.ok) {
         const data = await response.json();
-        return data; // Return the detailed Pokémon data
+        return data;
     } else {
         console.error('Failed to fetch Pokémon details');
         return null;
     }
 }
 
-// Display each favorite Pokémon
+// Function to remove pokemon from favorites page
+function removeFromFavorites(pokemonId, favDiv) {
+    let favorites = JSON.parse(localStorage.getItem('favorites')) || [];
+    favorites = favorites.filter(fav => fav.id !== pokemonId);
+    localStorage.setItem('favorites', JSON.stringify(favorites));
+    favDiv.remove();
+}
+
+// Displays each favorite pokemon
 favorites.forEach(async (fav) => {
     const favDiv = document.createElement('div');
     favDiv.classList.add('favorite-card');
@@ -24,16 +30,14 @@ favorites.forEach(async (fav) => {
     favName.textContent = fav.name;
     favDiv.appendChild(favName);
 
-    // Create the Pokémon sprite image
     const favSprite = createSpriteImage(fav.sprite, 'Favorite Sprite');
     if (favSprite) {
         favDiv.appendChild(favSprite);
     }
 
-    // Fetch detailed information about the favorite Pokémon
+    // Gets details from favorite pokemon
     const pokemonData = await getPokemonDetails(fav.id);
     if (pokemonData) {
-        // Display additional details (like types, abilities, etc.)
         const types = pokemonData.types.map(type => type.type.name).join(', ');
         const typesDiv = document.createElement('p');
         typesDiv.textContent = `Types: ${types}`;
@@ -45,13 +49,18 @@ favorites.forEach(async (fav) => {
         favDiv.appendChild(abilitiesDiv);
     }
 
-    // Append the favorite Pokémon to the container
+    // Creates the remove favorite pokemon button
+    const removeButton = document.createElement('button');
+    removeButton.textContent = 'Remove from Favorites';
+    removeButton.onclick = () => removeFromFavorites(fav.id, favDiv);
+    favDiv.appendChild(removeButton);
+
     favoritesContainer.appendChild(favDiv);
 });
 
-// Helper function to create and display the Pokémon sprite image
+// Checks to make sure an image is available and utilizes lazy load
 function createSpriteImage(src, alt) {
-    if (!src) return null;  // Return null if no sprite is available
+    if (!src) return null;
     const img = document.createElement('img');
     img.src = src;
     img.alt = alt;

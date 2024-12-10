@@ -1,10 +1,10 @@
-// Function to load HTML from a URL and insert it into the DOM
+// Function loads html from url
 async function loadHTML(elementId, filePath) {
     try {
-        const response = await fetch(filePath);  // Fetch the HTML content from the partial
+        const response = await fetch(filePath);
         if (response.ok) {
-            const html = await response.text();  // Convert the response to text
-            document.getElementById(elementId).innerHTML = html;  // Inject the HTML into the specified element
+            const html = await response.text();
+            document.getElementById(elementId).innerHTML = html;
         } else {
             console.error('Failed to load HTML:', response.status);
         }
@@ -13,18 +13,34 @@ async function loadHTML(elementId, filePath) {
     }
 }
 
-// Function to navigate to the favorites page
+// Function navigates to the favorites page
 function navigateToFavorites() {
-    window.location.href = 'favorites.html';  // Redirect to favorites page
+    window.location.href = 'favorites.html';
 }
 
-// Event listeners to handle the button click on both index and details pages
+// Function to make home page link
+function navigateToHome() {
+    window.location.href = 'index.html';
+}
+
+// Having problems with loading headr, this ensures header loads first
+loadHTML('header-container', 'partials/header.html')
+    .then(() => {
+        const indexButton = document.getElementById('indexButton');
+        if (indexButton) {
+            indexButton.addEventListener('click', navigateToHome);
+        } else {
+            console.error("Home button not found!");
+        }
+    })
+    .catch((error) => {
+        console.error('Error loading header:', error);
+    });
+
+// Event listeners index and detail pages
 const viewFavoritesButton = document.getElementById('viewFavoritesbutton');
 if (viewFavoritesButton) {
     viewFavoritesButton.addEventListener('click', navigateToFavorites);
 }
 
-
-// Load the header and footer dynamically
-loadHTML('header-container', 'partials/header.html');
 loadHTML('footer-container', 'partials/footer.html');

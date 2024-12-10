@@ -41,3 +41,75 @@ h2 {
     text-align: left;
     font-size: 14px;
 }
+
+.index-button {
+    background: none;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    display: inline-block;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* Style.css */
+header {
+    display: flex;
+    justify-content: space-between; /* Space out the logo and home button */
+    align-items: center; /* Vertically align items */
+    padding: 10px 20px;
+}
+
+.logo-container {
+    /* Optional: add any desired padding or margins */
+    display: flex;
+    align-items: center;
+}
+
+.home-button-container {
+    /* Align button to the right, or wherever you want */
+    display: flex;
+    justify-content: flex-end;
+}
+
+#indexButton {
+    background-color: #4CAF50; /* Example button style */
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    cursor: pointer;
+}
+
+#indexButton:hover {
+    background-color: #45a049; /* Button hover effect */
+}
