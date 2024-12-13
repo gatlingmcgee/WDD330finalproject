@@ -40,6 +40,15 @@ function displayPokemonDetails(pokemonData) {
     const abilitiesDiv = document.createElement('p');
     abilitiesDiv.textContent = `Abilities: ${abilities}`;
     container.appendChild(abilitiesDiv);
+    
+    // Add the Wikipedia button
+    const wikipediaButton = document.createElement('button');
+    wikipediaButton.textContent = 'View Wikipedia';
+    wikipediaButton.onclick = () => {
+        // Navigate to the Pokémon's Wikipedia page
+        window.open(`https://en.wikipedia.org/wiki/${pokemonData.name}`, '_blank');
+    };
+    container.appendChild(wikipediaButton);    
 
     // Foavorite button to add a pokemon to favorites
     const favoriteButton = document.createElement('button');
