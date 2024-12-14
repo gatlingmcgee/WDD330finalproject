@@ -21,7 +21,17 @@ async function doStuff(data) {
    console.log('Pokemon data:', results);
 
    results.results.sort((a, b) => a.name.localeCompare(b.name));
-   results.results.forEach(async (pokemon) => {
+
+   // Displays all pokemon at page load
+   displayPokemonList(results.results);
+}
+
+// Function to display pokemon list
+function displayPokemonList(pokemonList) {
+   const container = document.querySelector('#pokemonContainer');
+   container.innerHTML = '';  // Clear the container before displaying new results
+
+   pokemonList.forEach(async (pokemon) => {
       const pokemonData = await fetchPokemonDetails(pokemon.url);
 
       // Creates the div for each pokemon
@@ -33,15 +43,15 @@ async function doStuff(data) {
       const nameCap = pokemon.name.replace(/\b\w/g, char => char.toUpperCase());
       name.textContent = nameCap;
       div.appendChild(name);
-       
+
       // Creates and display pokemon images
       const sprites = pokemonData.sprites;
       const frontDefaultImg = createSpriteImage(sprites.front_default, 'Front Default');
-       
+      
       if (frontDefaultImg) {
          div.appendChild(frontDefaultImg);
       }
-      
+
       // Creates the details view button
       const button = document.createElement('button');
       button.textContent = 'View Details';
@@ -49,19 +59,36 @@ async function doStuff(data) {
          window.location.href = `./card-detail.html?id=${pokemonData.id}`;
       };
       div.appendChild(button);
-      document.querySelector('#pokemonContainer').appendChild(div);
+      container.appendChild(div);
    });
 }
 
-// Checks to make sure an image is available and utilizes lazy load
+// Function to create sprite images
 function createSpriteImage(src, alt) {
-    if (!src) return;
+    if (!src) return null;
     const img = document.createElement('img');
     img.src = src;
     img.alt = alt;
     img.classList.add('pokemon-sprite');
     img.loading = 'lazy';
     return img;
+}
+
+// Function to serach for pokemon in a search bar
+function searchPokemon() {
+    const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+
+    const filteredResults = results.results.filter(pokemon =>
+        pokemon.name.toLowerCase().includes(searchTerm)
+    );
+
+    displayPokemonList(filteredResults);
+}
+
+// Event listener for the search button
+const searchButton = document.getElementById('searchButton');
+if (searchButton) {
+    searchButton.addEventListener('click', searchPokemon);
 }
 
 getPokemon(url);
