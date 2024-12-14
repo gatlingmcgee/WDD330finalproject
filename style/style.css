@@ -1,10 +1,16 @@
+:root {
+    --background: #802223;
+}
+
 body, html {
     padding: 0;
     margin: 0;
-    height: 100%;
-    place-items: center;
     background-color: #fff;
     color: #000;
+}
+
+button {
+    margin: 10px;
 }
 
 body.dark-mode {
@@ -34,7 +40,7 @@ body.dark-mode #darkModeButton:hover {
 .pokemon-card {
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
     padding: 10px;
-    width: 100%;
+    width: 80%;
     height: auto;
     align-items: center;
     text-align: center;
@@ -67,6 +73,7 @@ body.dark-mode #darkModeButton:hover {
 
 
 main {
+    height: auto;
     display: grid;
     grid-template-columns: 1fr 1fr 1fr 1fr;
     gap: 20px;
@@ -100,6 +107,12 @@ header {
 .logo-container {
     display: flex;
     align-items: center;
+    position: relative;
+}
+
+.logo-container img {
+    width: 100%;
+    height: auto;
 }
 
 .home-button-container {
@@ -107,16 +120,57 @@ header {
     justify-content: flex-end;
 }
 
-#indexButton {
-    background-color: #4CAF50;
+#homeButton, #viewFavoritesbutton, #darkModeButton, #searchButton, .pokemon-card button {
+    background-color: var(--background);
+    font-size: 20px;
     color: white;
     padding: 10px 20px;
     border: none;
     cursor: pointer;
 }
 
-#indexButton:hover {
-    background-color: #45a049;
+.pokemon-card button {
+    font-size: 18px;
+}
+
+.navcontainer {
+    display: flex;
+    justify-content: space-between;
+    margin: 20px;
+}
+
+#searchInput {
+    width: 50%;
+    height: 40%;
+}
+
+#homeButton {
+    position: absolute;
+    top: 5%;
+    right: 5%;
+}
+
+.favorite-card {
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+    padding: 10px;
+    width: 80%;
+    height: auto;
+    align-items: center;
+    text-align: center;
+    transition: transform .2s;
+}
+
+.favhead {
+    text-decoration: underline;
+    text-align: center;
+    margin-bottom: 50px;
+}
+
+
+
+#homeButton:hover, #viewFavoritesbutton:hover, #darkModeButton:hover, #searchButton:hover, .pokemon-card button:hover {
+    background-color: #F9BEBF;
+    color: black;
 }
 
 @keyframes spin {

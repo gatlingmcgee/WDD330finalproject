@@ -92,7 +92,7 @@ async function displayPokemonDetails(pokemonData) {
     // Allows dom to wait for all abilities to be displayed
     await Promise.all(abilityPromises);
 
-// Display moves with details
+    // Display moves with details
     const movesDiv = document.createElement('div');
     movesDiv.classList.add('pokemon-moves');
     const movesTitle = document.createElement('h3');

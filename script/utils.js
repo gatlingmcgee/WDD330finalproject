@@ -20,13 +20,13 @@ function navigateToFavorites() {
 
 // Function to make home page link
 function navigateToHome() {
-    window.location.href = 'index.html';
+    window.location.href='index.html';
 }
 
 // Having problems with loading headr, this ensures header loads first
 loadHTML('header-container', 'partials/header.html')
     .then(() => {
-        const indexButton = document.getElementById('indexButton');
+        const indexButton = document.getElementById('homeButton');
         if (indexButton) {
             indexButton.addEventListener('click', navigateToHome);
         } else {
