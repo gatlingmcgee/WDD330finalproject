@@ -1,6 +1,11 @@
 const favorites = JSON.parse(localStorage.getItem('favorites')) || [];
 const favoritesContainer = document.querySelector('#favoritesContainer');
 
+// Function to capitalize the name
+function capitalizeName(name) {
+    return name.replace(/\b\w/g, char => char.toUpperCase());
+}
+
 // Function that gets pokemon details
 async function getPokemonDetails(pokemonId) {
     const response = await fetch(`https://pokeapi.co/api/v2/pokemon/${pokemonId}/`);

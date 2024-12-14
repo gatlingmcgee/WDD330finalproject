@@ -13,9 +13,35 @@ async function getPokemonDetail() {
     }
 }
 
+// Function to get move details
+async function fetchMoveDetails(moveUrl) {
+    const response = await fetch(moveUrl);
+    if (response.ok) {
+        const moveData = await response.json();
+        return moveData;
+    } else {
+        console.error('Failed to fetch move details');
+        return null;
+    }
+}
+
 // Function creates all pokemon details
-function displayPokemonDetails(pokemonData) {
+async function displayPokemonDetails(pokemonData) {
     const container = document.querySelector('#pokemonDetailContainer');
+
+    // Adds the Wikipedia button
+    const wikipediaButton = document.createElement('button');
+    wikipediaButton.textContent = 'View Wikipedia';
+    wikipediaButton.onclick = () => {
+        window.open(`https://en.wikipedia.org/wiki/${pokemonData.name}`, '_blank');
+    };
+    container.appendChild(wikipediaButton);    
+
+    // Foavorite button to add a pokemon to favorites
+    const favoriteButton = document.createElement('button');
+    favoriteButton.textContent = 'Add to Favorites';
+    favoriteButton.onclick = () => addToFavorites(pokemonData);
+    container.appendChild(favoriteButton);
     
     // Creates and displays pokemon names
     const name = document.createElement('h2');
@@ -30,31 +56,100 @@ function displayPokemonDetails(pokemonData) {
         container.appendChild(frontDefaultImg);
     }
 
+    // Creates and display the back sprite
+    const backDefaultImg = createSpriteImage(sprites.back_default, 'Back Default');
+    if (backDefaultImg) {
+        container.appendChild(backDefaultImg);
+    }
+    
+    // Creates and display the shiny front sprite
+    const shinyFrontImg = createSpriteImage(sprites.front_shiny, 'Shiny Front');
+    if (shinyFrontImg) {
+        container.appendChild(shinyFrontImg);
+    }
+    
+    // Creates and display the shiny back sprite
+    const shinyBackImg = createSpriteImage(sprites.back_shiny, 'Shiny Back');
+    if (shinyBackImg) {
+        container.appendChild(shinyBackImg);
+    }
+
     // Displays pokemon details for the details page
     const types = pokemonData.types.map(type => type.type.name).join(', ');
     const typesDiv = document.createElement('p');
     typesDiv.textContent = `Types: ${types}`;
     container.appendChild(typesDiv);
 
-    const abilities = pokemonData.abilities.map(ability => ability.ability.name).join(', ');
-    const abilitiesDiv = document.createElement('p');
-    abilitiesDiv.textContent = `Abilities: ${abilities}`;
-    container.appendChild(abilitiesDiv);
-    
-    // Add the Wikipedia button
-    const wikipediaButton = document.createElement('button');
-    wikipediaButton.textContent = 'View Wikipedia';
-    wikipediaButton.onclick = () => {
-        // Navigate to the Pokémon's Wikipedia page
-        window.open(`https://en.wikipedia.org/wiki/${pokemonData.name}`, '_blank');
-    };
-    container.appendChild(wikipediaButton);    
+    // Fetch and display abilities
+    const abilities = pokemonData.abilities;
+    const abilityPromises = abilities.map(async ability => {
+        const abilityDetails = await fetchAbilityDetails(ability.ability.url);
+        const abilityDiv = document.createElement('p');
+        abilityDiv.innerHTML = `Ability: ${ability.ability.name}<br>Effect: ${abilityDetails.effect}`;
+        container.appendChild(abilityDiv);
+    });
 
-    // Foavorite button to add a pokemon to favorites
-    const favoriteButton = document.createElement('button');
-    favoriteButton.textContent = 'Add to Favorites';
-    favoriteButton.onclick = () => addToFavorites(pokemonData);
-    container.appendChild(favoriteButton);
+    // Allows dom to wait for all abilities to be displayed
+    await Promise.all(abilityPromises);
+
+// Display moves with details
+    const movesDiv = document.createElement('div');
+    movesDiv.classList.add('pokemon-moves');
+    const movesTitle = document.createElement('h3');
+    movesTitle.textContent = 'Moves:';
+    movesDiv.appendChild(movesTitle);
+
+    for (const move of pokemonData.moves.slice(0, 10)) {
+        const moveData = await fetchMoveDetails(move.move.url);
+        if (moveData) {
+            const moveDiv = document.createElement('div');
+            moveDiv.classList.add('pokemon-move');
+            
+            const moveName = document.createElement('h4');
+            moveName.textContent = move.move.name.replace(/\b\w/g, char => char.toUpperCase());
+            moveDiv.appendChild(moveName);
+
+            const moveType = moveData.type.name;
+            const moveTypeElement = document.createElement('p');
+            moveTypeElement.textContent = `Type: ${moveType}`;
+            moveDiv.appendChild(moveTypeElement);
+
+            const movePower = moveData.power || 'N/A';
+            const movePowerElement = document.createElement('p');
+            movePowerElement.textContent = `Power: ${movePower}`;
+            moveDiv.appendChild(movePowerElement);
+
+            const moveAccuracy = moveData.accuracy || 'N/A';
+            const moveAccuracyElement = document.createElement('p');
+            moveAccuracyElement.textContent = `Accuracy: ${moveAccuracy}`;
+            moveDiv.appendChild(moveAccuracyElement);
+
+            const moveDescription = moveData.effect_entries.find(entry => entry.language.name === 'en')?.effect || 'No description available';
+            const moveDescriptionElement = document.createElement('p');
+            moveDescriptionElement.textContent = `Description: ${moveDescription}`;
+            moveDiv.appendChild(moveDescriptionElement);
+
+            movesDiv.appendChild(moveDiv);
+        }
+    }
+
+    container.appendChild(movesDiv);
+
+
+}
+
+// Function to get more detailed ability info
+async function fetchAbilityDetails(abilityUrl) {
+    const response = await fetch(abilityUrl);
+    if (response.ok) {
+        const abilityData = await response.json();
+        return {
+            effect: abilityData.effect_entries.find(entry => entry.language.name === 'en')?.effect || 'No description available',
+        };
+    } else {
+        console.error('Failed to fetch ability details');
+        return { effect: 'No description available' };
+    }
 }
 
 // Function creates pokemon images and utilixes lazy load
