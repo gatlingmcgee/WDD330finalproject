@@ -43,4 +43,27 @@ if (viewFavoritesButton) {
     viewFavoritesButton.addEventListener('click', navigateToFavorites);
 }
 
+// Function for clicking dark mode
+function toggleDarkMode() {
+    document.body.classList.toggle('dark-mode');
+
+    const isDarkMode = document.body.classList.contains('dark-mode');
+    localStorage.setItem('darkMode', isDarkMode ? 'true' : 'false');
+}
+
+// Checks for theme in local storage
+function loadTheme() {
+    const savedTheme = localStorage.getItem('darkMode');
+    if (savedTheme === 'true') {
+        document.body.classList.add('dark-mode');
+    }
+}
+
+// Event listener for dark mode
+const darkModeButton = document.getElementById('darkModeButton');
+if (darkModeButton) {
+    darkModeButton.addEventListener('click', toggleDarkMode);
+}
+
+loadTheme();
 loadHTML('footer-container', 'partials/footer.html');
