@@ -1,11 +1,18 @@
 :root {
     --background: #802223;
+    --foreground: #F5CF5E;
+
+    --yellow: #F4E793;
+    --red: #DE6655;
+    --green: #A4B952;
+    --blue: #BEDAE5;
+    --borderbrown: #57271B;
+
 }
 
 body, html {
     padding: 0;
     margin: 0;
-    background-color: #fff;
     color: #000;
 }
 
@@ -18,26 +25,26 @@ body.dark-mode {
     color: #fff;
 }
 
-body.dark-mode .pokemon-card {
+body.dark-mode .pokemon-card, body.dark-mode .favorite-card {
     background-color: #333;
     color: #fff;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.5);
 }
 
-body.dark-mode h2 {
+body.dark-mode h2, body.dark-mode #darkModeButton {
     color: #fff;
 }
 
 body.dark-mode #darkModeButton {
     background-color: #444;
-    color: #fff;
 }
 
 body.dark-mode #darkModeButton:hover {
     background-color: #555;
 }
 
-.pokemon-card {
+.pokemon-card, .favorite-card {
+    background-color: var(--yellow);
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
     padding: 10px;
     width: 80%;
@@ -47,46 +54,129 @@ body.dark-mode #darkModeButton:hover {
     transition: transform .2s;
 }
 
-.pokemon-card:hover {
+.pokemon-card:hover, .favorite-card:hover {
     animation: spin .5s ease-in-out;
+}
+
+.pokemon-card button, .favorite-card button, .button {
+    font-size: 18px;
+    background-color: var(--green);
+    color: #213B1A;
+    padding: 10px 20px;
+    border: none;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.pokemon-card button:hover, .favorite-card button:hover, .button:hover {
+    background-color: #F9BEBF;
+    color: black;
+}
+
+.pokemon-moves {
+    margin-top: 20px;
+    padding: 15px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.pokemon-moves h3 {
+    font-size: 1.5em;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 15px;
+}
+
+.pokemon-move {
+    padding: 10px;
+    margin-bottom: 15px;
+    border-radius: 6px;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.pokemon-move:hover {
+    background-color: #f1f1f1;
+    transform: scale(1.02);
+    transition: all 0.2s ease;
+}
+
+.move-name, .move-type, .move-power, .move-accuracy, .move-description {
+    font-size: 1em;
+}
+
+.move-name {
+    font-weight: bold;
+    color: #007bff;
+    margin-bottom: 8px;
+}
+
+.move-type {
+    color: #28a745;
+}
+
+.move-power {
+    color: #dc3545;
+}
+
+.move-accuracy {
+    color: #ffc107;
+}
+
+.move-description {
+    font-size: 0.9em;
+    color: #6c757d;
+    line-height: 1.4;
+}
+
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+}
+
+footer {
+    background-color: var(--blue);
+    color: var(--borderbrown);
+    padding: 40px 0;
+    text-align: center;
+}
+
+@media (max-width: 768px) {
+    .pokemon-moves, .pokemon-move {
+        padding: 10px;
+    }
+
+    .pokemon-card, .favorite-card {
+        width: 100%;
+    }
+
+    .move-name {
+        font-size: 1em;
+    }
 }
 
 .pokemon-sprite {
     width: 150px;
     height: 150px;
     object-fit: contain;
-}
-
-.pokemon-moves {
-    margin-top: 20px;
-}
-
-.pokemon-moves h3 {
-    font-size: 1.2rem;
     margin-bottom: 10px;
 }
-
-.pokemon-moves p {
-    font-size: 1rem;
-    margin: 5px 0;
-}
-
 
 main {
     height: auto;
     display: grid;
     grid-template-columns: 1fr 1fr 1fr 1fr;
     gap: 20px;
+    background-color: var(--red);
+    padding: 20px;
 }
 
 h2 {
     text-decoration: underline;
-}
-
-.pokemon-stats {
-    margin-top: 10px;
-    text-align: left;
-    font-size: 14px;
 }
 
 .index-button {
@@ -97,46 +187,13 @@ h2 {
     display: inline-block;
 }
 
-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 10px 20px;
-}
-
-.logo-container {
-    display: flex;
-    align-items: center;
-    position: relative;
-}
-
-.logo-container img {
-    width: 100%;
-    height: auto;
-}
-
-.home-button-container {
-    display: flex;
-    justify-content: flex-end;
-}
-
-#homeButton, #viewFavoritesbutton, #darkModeButton, #searchButton, .pokemon-card button {
-    background-color: var(--background);
-    font-size: 20px;
-    color: white;
-    padding: 10px 20px;
-    border: none;
-    cursor: pointer;
-}
-
-.pokemon-card button {
-    font-size: 18px;
-}
-
 .navcontainer {
     display: flex;
     justify-content: space-between;
     margin: 20px;
+    background-color: var(--blue);
+    padding: 0;
+    margin: 0;
 }
 
 #searchInput {
@@ -150,27 +207,19 @@ header {
     right: 5%;
 }
 
-.favorite-card {
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
-    padding: 10px;
-    width: 80%;
-    height: auto;
-    align-items: center;
-    text-align: center;
-    transition: transform .2s;
-}
-
-.favhead {
-    text-decoration: underline;
-    text-align: center;
-    margin-bottom: 50px;
-}
-
-
-
 #homeButton:hover, #viewFavoritesbutton:hover, #darkModeButton:hover, #searchButton:hover, .pokemon-card button:hover {
     background-color: #F9BEBF;
     color: black;
+}
+
+#homeButton, #viewFavoritesbutton, #darkModeButton, #searchButton {
+    background-color: var(--green);
+    font-size: 20px;
+    color: #213B1A;
+    padding: 10px 20px;
+    border: none;
+    cursor: pointer;
+    font-weight: bold;
 }
 
 @keyframes spin {
@@ -182,90 +231,5 @@ header {
     }
     100% {
         transform: rotateY(360deg);
-    }
-}
-
-/* Container for all moves */
-.pokemon-moves {
-    margin-top: 20px;
-    padding: 15px;
-    background-color: #f9f9f9;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-
-/* Title for moves section */
-.pokemon-moves h3 {
-    font-size: 1.5em;
-    font-weight: bold;
-    color: #333;
-    margin-bottom: 15px;
-}
-
-/* Individual move container */
-.pokemon-move {
-    padding: 10px;
-    margin-bottom: 15px;
-    border-radius: 6px;
-    background-color: #fff;
-    border: 1px solid #ddd;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-}
-
-/* Move name styling */
-.move-name {
-    font-size: 1.2em;
-    font-weight: bold;
-    color: #007bff;
-    margin-bottom: 8px;
-}
-
-/* Move type styling */
-.move-type {
-    font-size: 1em;
-    color: #28a745;
-    margin-bottom: 5px;
-}
-
-/* Move power styling */
-.move-power {
-    font-size: 1em;
-    color: #dc3545;
-    margin-bottom: 5px;
-}
-
-/* Move accuracy styling */
-.move-accuracy {
-    font-size: 1em;
-    color: #ffc107;
-    margin-bottom: 5px;
-}
-
-/* Move description styling */
-.move-description {
-    font-size: 0.9em;
-    color: #6c757d;
-    line-height: 1.4;
-}
-
-/* Optional: Hover effect for each move */
-.pokemon-move:hover {
-    background-color: #f1f1f1;
-    transform: scale(1.02);
-    transition: all 0.2s ease;
-}
-
-/* Responsive design: Stack elements on smaller screens */
-@media (max-width: 768px) {
-    .pokemon-moves {
-        padding: 10px;
-    }
-
-    .pokemon-move {
-        padding: 8px;
-    }
-
-    .move-name {
-        font-size: 1em;
     }
 }

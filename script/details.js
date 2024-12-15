@@ -32,6 +32,7 @@ async function displayPokemonDetails(pokemonData) {
     // Adds the Wikipedia button
     const wikipediaButton = document.createElement('button');
     wikipediaButton.textContent = 'View Wikipedia';
+    wikipediaButton.classList.add('button');
     wikipediaButton.onclick = () => {
         window.open(`https://en.wikipedia.org/wiki/${pokemonData.name}`, '_blank');
     };
@@ -40,6 +41,7 @@ async function displayPokemonDetails(pokemonData) {
     // Foavorite button to add a pokemon to favorites
     const favoriteButton = document.createElement('button');
     favoriteButton.textContent = 'Add to Favorites';
+    favoriteButton.classList.add('button');
     favoriteButton.onclick = () => addToFavorites(pokemonData);
     container.appendChild(favoriteButton);
     
