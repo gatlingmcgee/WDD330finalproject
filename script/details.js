@@ -13,7 +13,6 @@ async function getPokemonDetail() {
     }
 }
 
-// Function to get move details
 async function fetchMoveDetails(moveUrl) {
     const response = await fetch(moveUrl);
     if (response.ok) {
@@ -25,18 +24,55 @@ async function fetchMoveDetails(moveUrl) {
     }
 }
 
-// Function creates all pokemon details
+async function getLegacyPokemonCry(pokemonId) {
+    const cryUrl = `https://pokeapi.co/api/v2/pokemon/${pokemonId}/`;
+    const response = await fetch(cryUrl);
+    if (response.ok) {
+        const data = await response.json();
+        const cry = data.cries;
+        return cry.legacy;
+    } else {
+        console.error('Failed to fetch Pokémon cry');
+        return null;
+    }
+}
+
+async function getLatestPokemonCry(pokemonId) {
+    const cryUrl = `https://pokeapi.co/api/v2/pokemon/${pokemonId}/`;
+    const response = await fetch(cryUrl);
+    if (response.ok) {
+        const data = await response.json();
+        const cry = data.cries;
+        return cry.latest;
+    } else {
+        console.error('Failed to fetch Pokémon cry');
+        return null;
+    }
+}
+
+
 async function displayPokemonDetails(pokemonData) {
     const container = document.querySelector('#pokemonDetailContainer');
 
-    // Adds the Wikipedia button
-    const wikipediaButton = document.createElement('button');
-    wikipediaButton.textContent = 'View Wikipedia';
-    wikipediaButton.classList.add('button');
-    wikipediaButton.onclick = () => {
-        window.open(`https://en.wikipedia.org/wiki/${pokemonData.name}`, '_blank');
+
+    const pokedexButton = document.createElement('button');
+    pokedexButton.textContent = 'View Pokédex Entry';
+    pokedexButton.classList.add('button');
+    
+
+    const nameParts = pokemonData.name.split('-');
+    let normalizedName = nameParts[0];
+    if (nameParts[1] === 'mega' || nameParts[1] === 'primal') {
+        normalizedName += `/${nameParts[1]}`;
+        if (nameParts[2]) {
+            normalizedName += `-${nameParts[2]}`;
+        }
+    }
+    pokedexButton.onclick = () => {
+        window.open(`https://pokemondb.net/pokedex/${normalizedName}`, '_blank');
     };
-    container.appendChild(wikipediaButton);    
+    
+    container.appendChild(pokedexButton);
 
     // Foavorite button to add a pokemon to favorites
     const favoriteButton = document.createElement('button');
@@ -77,18 +113,22 @@ async function displayPokemonDetails(pokemonData) {
     }
 
     // Displays pokemon details for the details page
-    const types = pokemonData.types.map(type => type.type.name).join(', ');
-    const typesDiv = document.createElement('p');
-    typesDiv.textContent = `Types: ${types}`;
+    const types = pokemonData.types.map(type => type.type.name.charAt(0).toUpperCase() + type.type.name.slice(1)).join(', ');
+    const typesDiv = document.createElement('div');
+    typesDiv.classList.add('typetextarea');
+    const typesP = document.createElement('h4');
+    typesP.textContent = `Types: ${types}`;
     container.appendChild(typesDiv);
+    typesDiv.appendChild(typesP);
 
     // Fetch and display abilities
     const abilities = pokemonData.abilities;
     const abilityPromises = abilities.map(async ability => {
         const abilityDetails = await fetchAbilityDetails(ability.ability.url);
+        const capitalizedAbilityName = ability.ability.name.charAt(0).toUpperCase() + ability.ability.name.slice(1);
         const abilityDiv = document.createElement('p');
-        abilityDiv.innerHTML = `Ability: ${ability.ability.name}<br>Effect: ${abilityDetails.effect}`;
-        container.appendChild(abilityDiv);
+        abilityDiv.innerHTML = `Ability: ${capitalizedAbilityName}<br>Effect: ${abilityDetails.effect}`;
+        typesDiv.appendChild(abilityDiv);
     });
 
     // Allows dom to wait for all abilities to be displayed
@@ -134,6 +174,37 @@ async function displayPokemonDetails(pokemonData) {
             movesDiv.appendChild(moveDiv);
         }
     }
+
+        const cryButtonLegacy = document.createElement('button');
+        cryButtonLegacy.textContent = 'Hear Old Pokémon Cry';
+        cryButtonLegacy.classList.add('button');
+        cryButtonLegacy.onclick = async () => {
+            const cryUrl = await getLegacyPokemonCry(pokemonData.id);
+            if (cryUrl) {
+                const audio = new Audio(cryUrl);
+                audio.play();
+            } else {
+                alert('Sorry, the Pokémon cry is not available.');
+            }
+        };
+    
+        container.appendChild(cryButtonLegacy);
+
+        const cryButtonLatest = document.createElement('button');
+        cryButtonLatest.textContent = 'Hear New Pokémon Cry';
+        cryButtonLatest.classList.add('button');
+        cryButtonLatest.onclick = async () => {
+            const cryUrl = await getLatestPokemonCry(pokemonData.id);
+            if (cryUrl) {
+                const audio = new Audio(cryUrl);
+                audio.play();
+            } else {
+                alert('Sorry, the Pokémon cry is not available.');
+            }
+        };
+    
+        container.appendChild(cryButtonLatest);
+
 
     container.appendChild(movesDiv);
 

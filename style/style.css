@@ -14,10 +14,15 @@ body, html {
     padding: 0;
     margin: 0;
     color: #000;
+    font-family: "Itim", cursive;
+    font-weight: 400;
+    font-style: normal;
+
 }
 
 button {
     margin: 10px;
+    color: #162412;
 }
 
 body.dark-mode {
@@ -61,7 +66,6 @@ body.dark-mode #darkModeButton:hover {
 .pokemon-card button, .favorite-card button, .button {
     font-size: 18px;
     background-color: var(--green);
-    color: #213B1A;
     padding: 10px 20px;
     border: none;
     cursor: pointer;
@@ -76,29 +80,52 @@ body.dark-mode #darkModeButton:hover {
 .pokemon-moves {
     margin-top: 20px;
     padding: 15px;
-    background-color: #f9f9f9;
+    background-color: var(--red);
     border-radius: 8px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+}
+
+.favorites-body {
+    background-color: var(--blue);
+    text-align: center;
+}
+
+.favorites-body h1 {
+    text-decoration: underline;
 }
 
 .pokemon-moves h3 {
-    font-size: 1.5em;
+    grid-column: span 2;
+    font-size: 3em;
     font-weight: bold;
-    color: #333;
+    color: black;
     margin-bottom: 15px;
+    text-align: center;
+}
+
+.pokemon-move h4 {
+    font-size: 30px;
+    text-decoration: underline;
 }
 
 .pokemon-move {
     padding: 10px;
-    margin-bottom: 15px;
     border-radius: 6px;
-    background-color: #fff;
-    border: 1px solid #ddd;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    margin: 0 auto;
+    margin-bottom: 50px;
+    width: 85%;
+    background-color: var(--yellow);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+    height: auto;
+    text-align: center;
+    transition: transform .2s;
+    font-size: 25px;
 }
 
 .pokemon-move:hover {
-    background-color: #f1f1f1;
+    background-color: #FBF4CA;
     transform: scale(1.02);
     transition: all 0.2s ease;
 }
@@ -131,6 +158,19 @@ body.dark-mode #darkModeButton:hover {
     line-height: 1.4;
 }
 
+.typetextarea{
+    background-color: var(--blue);
+    text-align: center;
+    font-size: 25px;
+    width: 95%;
+    padding: 5px;
+    margin: 0 auto;
+}
+
+.typetextarea h4 {
+    font-size: 32px;
+}
+
 header {
     display: flex;
     justify-content: space-between;
@@ -145,25 +185,16 @@ footer {
     text-align: center;
 }
 
-@media (max-width: 768px) {
-    .pokemon-moves, .pokemon-move {
-        padding: 10px;
-    }
-
-    .pokemon-card, .favorite-card {
-        width: 100%;
-    }
-
-    .move-name {
-        font-size: 1em;
-    }
-}
-
 .pokemon-sprite {
     width: 150px;
     height: 150px;
     object-fit: contain;
     margin-bottom: 10px;
+}
+
+#logo {
+    width: 100%;
+    height: auto;
 }
 
 main {
@@ -174,6 +205,7 @@ main {
     gap: 20px;
     background-color: var(--red);
     padding: 20px;
+    justify-items: center;
 }
 
 h2 {
@@ -197,6 +229,32 @@ h2 {
     margin: 0;
 }
 
+.details-buttons {
+    text-align: center;
+}
+
+.card-detail-body {
+    background-color: var(--yellow);
+}
+
+#pokemonDetailContainer img {
+    width: 250px;
+    height: auto;
+    border: 1px solid var(--foreground);
+    margin: 20px;
+    background-color: #FBF4CA;
+}
+
+#pokemonDetailContainer img:hover {
+    transform: scale(1.05);
+}
+
+
+#pokemonDetailContainer {
+    text-align: center;
+}
+
+
 #searchInput {
     width: 50%;
     height: 40%;
@@ -216,7 +274,6 @@ h2 {
 #homeButton, #viewFavoritesbutton, #darkModeButton, #searchButton {
     background-color: var(--green);
     font-size: 20px;
-    color: #213B1A;
     padding: 10px 20px;
     border: none;
     cursor: pointer;
@@ -232,5 +289,50 @@ h2 {
     }
     100% {
         transform: rotateY(360deg);
+    }
+}
+
+@media (max-width: 1000px) {
+    .pokemon-moves, .pokemon-move {
+        padding: 10px;
+    }
+
+    .pokemon-moves {
+        grid-template-columns: 1fr;
+    }
+
+    .pokemon-moves h3 {
+        grid-column: span 1;
+    }
+
+    .pokemon-move {
+        width: 90%;
+    }
+
+    main {
+        grid-template-columns: 1fr;
+    }
+
+    .move-name {
+        font-size: 1em;
+    }
+
+    .pokemon-card, .favorite-card {
+        width: 70%;
+    }
+
+    .details-buttons button,
+    #homeButton,
+    #viewFavoritesbutton,
+    #darkModeButton,
+    #searchButton {
+        width: 30%;
+        height: auto;
+        font-size: 14px;
+    }
+
+    .navcontainer {
+        flex-direction: column;
+        align-items: center;
     }
 }
