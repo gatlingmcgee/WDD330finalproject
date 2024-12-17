@@ -32,7 +32,7 @@ favorites.forEach(async (fav) => {
     favDiv.classList.add('favorite-card');
 
     const favName = document.createElement('h2');
-    favName.textContent = fav.name;
+    favName.textContent = capitalizeName(fav.name);
     favDiv.appendChild(favName);
 
     const favSprite = createSpriteImage(fav.sprite, 'Favorite Sprite');
