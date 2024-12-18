@@ -76,6 +76,10 @@ body.dark-mode #darkModeButton:hover {
     font-weight: bold;
 }
 
+.empty-message {
+    font-size: 40px;
+}
+
 .pokemon-card button:hover, .favorite-card button:hover, .button:hover {
     background-color: #F9BEBF;
     color: black;

@@ -24,9 +24,31 @@ function removeFromFavorites(pokemonId, favDiv) {
     favorites = favorites.filter(fav => fav.id !== pokemonId);
     localStorage.setItem('favorites', JSON.stringify(favorites));
     favDiv.remove();
+
+    if (favorites.length === 0) {
+        displayEmptyMessage();
+    }
+}
+
+// Function to display an empty favorites message
+function displayEmptyMessage() {
+    const existingMessage = document.querySelector('.empty-message');
+    if (existingMessage) {
+        existingMessage.remove();
+    }
+
+    favoritesContainer.innerHTML = '';
+
+    const emptyMessage = document.createElement('p');
+    emptyMessage.textContent = 'Your favorites list is empty. Please add some Pokémon!';
+    emptyMessage.classList.add('empty-message');
+    favoritesContainer.appendChild(emptyMessage);
 }
 
 // Displays each favorite pokemon
+if (favorites.length === 0) {
+    displayEmptyMessage();
+} else {
 favorites.forEach(async (fav) => {
     const favDiv = document.createElement('div');
     favDiv.classList.add('favorite-card');
@@ -62,6 +84,7 @@ favorites.forEach(async (fav) => {
 
     favoritesContainer.appendChild(favDiv);
 });
+}
 
 // Checks to make sure an image is available and utilizes lazy load
 function createSpriteImage(src, alt) {
