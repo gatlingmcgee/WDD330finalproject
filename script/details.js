@@ -6,10 +6,18 @@ console.log("Pokemon ID:", pokemonId);
 const detailUrl = `https://pokeapi.co/api/v2/pokemon/${pokemonId}/`;
 
 async function getPokemonDetail() {
+    if (!pokemonId) {
+        return;
+    }
+
+    const detailUrl = `https://pokeapi.co/api/v2/pokemon/${pokemonId}/`;
+
     const response = await fetch(detailUrl);
     if (response.ok) {
         const data = await response.json();
         displayPokemonDetails(data);
+    } else {
+        console.error('Failed to fetch Pokémon details');
     }
 }
 
